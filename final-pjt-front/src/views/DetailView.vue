@@ -1,5 +1,6 @@
 <template>
-  <div class="app">
+  
+  <div>
     <img :src="imgSrc" style="width: 300px">  
     <p class="fonts">{{ movie.title }}</p>
     <p class="fonts str fonts arrange">{{ movie.overview }}</p>
@@ -12,20 +13,22 @@
     />
     <CommentList
     :movie="movie"
-    />    
+    />
+    <DetailVideoView/>
+    
   </div>
 </template>
 
 <script>
-
-import CommentForm from '@/components/Movie/CommentForm'
-import CommentList from '@/components/Movie/CommentList'
+import DetailVideoView from '@/components/DetailVideoView'
+import CommentForm from '@/components/CommentForm'
+import CommentList from '@/components/CommentList'
 // const API_KEY = process.env.VUE_APP_TMDB_API_KEY
 
 export default {
   name: 'DetailView',
   components: {
-    
+    DetailVideoView,
     CommentForm,
     CommentList,
   },
@@ -57,7 +60,6 @@ export default {
   white-space: nowrap;
   overflow: hidden;
 }
-
 
 </style>
 
