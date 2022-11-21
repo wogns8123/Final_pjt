@@ -1,17 +1,31 @@
 <template>
+<<<<<<< HEAD
   <ul class="youtube-list">
+=======
+  <div>
+>>>>>>> f3a832f2061c1aa9a514e86b812620dd0aebba9f
     <YoutubeListItem class="container"
     v-for="(video) in this.youtubeVideo"
     :key="video.idx"
     :video="video"
+<<<<<<< HEAD
     />    
   </ul>
+=======
+    
+    />
+    
+  </div>
+>>>>>>> f3a832f2061c1aa9a514e86b812620dd0aebba9f
 </template>
 
 <script>
 import YoutubeListItem from '@/components/Movie/YoutubeListItem'
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> f3a832f2061c1aa9a514e86b812620dd0aebba9f
 export default {
   name: 'YoutubeList',
   props: {
@@ -23,6 +37,10 @@ export default {
   data(){
     return{
       youtubeVideo: this.$store.state.youtubeVideos
+<<<<<<< HEAD
+=======
+      
+>>>>>>> f3a832f2061c1aa9a514e86b812620dd0aebba9f
     }
   },
   created(){
@@ -32,6 +50,7 @@ export default {
 </script>
 
 <style>
+<<<<<<< HEAD
 .youtube-list{
   display: flex;
   flex-flow: row nowrap;
@@ -40,5 +59,7 @@ export default {
   padding-left: 0;
 }
 
+=======
+>>>>>>> f3a832f2061c1aa9a514e86b812620dd0aebba9f
 
 </style>

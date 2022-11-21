@@ -84,7 +84,11 @@
         </div>
       </div>
       <div style="color:white;">
+<<<<<<< HEAD
         <CommentForm
+=======
+        <CommentVue
+>>>>>>> f3a832f2061c1aa9a514e86b812620dd0aebba9f
         :movie="movie"
         />
         <!-- <CommentForm
@@ -93,10 +97,13 @@
         <CommentList
         :movie="movie"
         /> -->
+<<<<<<< HEAD
         <CommentList
         :movie="movie"
         />
 
+=======
+>>>>>>> f3a832f2061c1aa9a514e86b812620dd0aebba9f
       </div>
     </div>
     comment
@@ -111,8 +118,12 @@
 // import CommentForm from '@/components/Movie/CommentForm'
 // import CommentList from '@/components/Movie/CommentList'
 import YoutubeList from '@/components/Movie/YoutubeList'
+<<<<<<< HEAD
 import CommentList from '@/components/Movie/CommentList.vue'
 import CommentForm from './CommentForm.vue'
+=======
+import CommentVue from '@/components/Movie/CommentVue'
+>>>>>>> f3a832f2061c1aa9a514e86b812620dd0aebba9f
 
 export default {
   name:'MovieCard',
@@ -120,12 +131,21 @@ export default {
     movie: Object
   },
   components: {
+<<<<<<< HEAD
     // CommentForm,
     // CommentList,
     YoutubeList,
     CommentList,
     CommentForm
 },
+=======
+
+    // CommentForm,
+    // CommentList,
+    YoutubeList,
+    CommentVue,
+  },
+>>>>>>> f3a832f2061c1aa9a514e86b812620dd0aebba9f
   data(){
     return{
       dialog: false
@@ -136,7 +156,11 @@ export default {
   imgSrc: function () {
     return "https://image.tmdb.org/t/p/original" + this.movie.poster_path
   },
+<<<<<<< HEAD
 }}
+=======
+}
+>>>>>>> f3a832f2061c1aa9a514e86b812620dd0aebba9f
 </script>
 
 <style>

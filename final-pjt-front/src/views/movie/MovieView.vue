@@ -7,7 +7,11 @@
         :movie="movie"/>
     </div>
     
+<<<<<<< HEAD
     <!-- <h1>인기 영화</h1>
+=======
+    <h1>인기 영화</h1>
+>>>>>>> f3a832f2061c1aa9a514e86b812620dd0aebba9f
     <div class="mt-3 mx-3">
       <vue-glide class="glide__track"
         data-glide-el="track"

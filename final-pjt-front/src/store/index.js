@@ -21,7 +21,10 @@ export default new Vuex.Store({
     youtubeVideos: [],
     user_id: null,
     genres: [],
+<<<<<<< HEAD
     rated: [1,2,3,4,5,6,7,8,9,10],
+=======
+>>>>>>> f3a832f2061c1aa9a514e86b812620dd0aebba9f
   },
   getters: {
     isLogin(state) {
@@ -172,9 +175,12 @@ export default new Vuex.Store({
         .then(res =>{
           context.commit('GET_YOUTUBE', res)
         })
+<<<<<<< HEAD
         .catch(err=>{
           console.log(err)
         })
+=======
+>>>>>>> f3a832f2061c1aa9a514e86b812620dd0aebba9f
     }
   },
   modules: {
