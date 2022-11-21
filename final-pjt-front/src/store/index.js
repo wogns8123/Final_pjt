@@ -7,6 +7,8 @@ import router from '@/router'
 Vue.use(Vuex)
 
 const API_URL = 'http://127.0.0.1:8000'
+const YOUTUBE_URL = 'https://www.googleapis.com/youtube/v3/search'
+const YOUTUBE_KEY = 'AIzaSyDlxxWeu6OMB8ZmSn-RPbwlzEqPSB0RReU'
 
 export default new Vuex.Store({
   plugins: [
@@ -14,9 +16,12 @@ export default new Vuex.Store({
   ],
   state: {
     MovieJsonData: [],
-    movies: [],
     token: null,
     comments: [],
+    youtubeVideos: [],
+    user_id: null,
+    genres: [],
+    rated: [1,2,3,4,5,6,7,8,9,10],
   },
   getters: {
     isLogin(state) {
@@ -27,7 +32,7 @@ export default new Vuex.Store({
     },
 
     getMovie(state) {
-      state.movies = state.MovieJsonData.slice(0, 21)
+      state.movies = state.MovieJsonData.slice(0, 25)
       return state.movies
     },
     getComment(state){
@@ -42,9 +47,19 @@ export default new Vuex.Store({
       state.token = token
       router.push({ name:'movie' })
     },
-    CREATE_COMMENT(state, commentItem){
+    CREATE_COMMENT(state, commentItem) {
       state.comments.push(commentItem)
     },
+    GET_YOUTUBE(state, res){
+      state.youtubeVideos = res.data.items
+    },
+    DELETE_TOKEN(state) {
+      state.token = null
+    },
+    PICK_GENRE(state, res) {
+      state.genres = res.data
+      console.log(res.data)
+    }
   },
   actions: {
     getMovieJson(context) {
@@ -72,6 +87,36 @@ export default new Vuex.Store({
         .then((response) => {
           context.commit('SAVE_TOKEN', response.data.key)
         })
+        .then(
+          axios({
+            method: 'get',
+            url: `${API_URL}/api/v1/genres/`,
+            data: {
+              pk: payload.genre_pk
+            }
+          })
+            .then((response) => {
+              context.commit('GET_GENRES', response.data.key)
+            })
+        )
+    },
+    pickGenre(context, genre_list) {
+      const local_genre = []
+      for (let i=0; i<genre_list.length; i++) {
+        console.log(genre_list[i])
+        axios({
+          method: 'get',
+          url: `${API_URL}/api/v1/genres/`,
+        })
+          .then((response) => {
+            for (let j=0; j<response.data.length; j++) {
+              if (genre_list[i] === response.data[j].name) {
+                local_genre.push(response.data[j].id)
+              }
+            }
+            context.commit('PICK_GENRE', local_genre)
+          })
+      }
     },
     logIn(context, payload) {
       axios({
@@ -84,7 +129,12 @@ export default new Vuex.Store({
       })
         .then((response) => {
           context.commit('SAVE_TOKEN', response.data.key)
+          context.commit('SET_USER_DATA', response.user)
+          console.log(response)
         })
+    },
+    logOut(context){
+      context.commit('DELETE_TOKEN')
     },
     createComment(context, payload){
       const commentItem = {
@@ -107,6 +157,25 @@ export default new Vuex.Store({
           context.commit('GET_PROFILE', res.data)
         )
     },
+    getYoutube(context, title){
+      const params={
+        q: title + 'movie',
+        key: YOUTUBE_KEY,
+        part: 'snippet',
+        type: 'video'
+      }
+      axios({
+        method: 'get',
+        url: YOUTUBE_URL,
+        params,
+      })
+        .then(res =>{
+          context.commit('GET_YOUTUBE', res)
+        })
+        .catch(err=>{
+          console.log(err)
+        })
+    }
   },
   modules: {
   }
