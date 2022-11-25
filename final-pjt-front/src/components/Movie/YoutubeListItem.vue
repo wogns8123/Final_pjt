@@ -1,41 +1,33 @@
 <template>
-  <span class="youtube-video">
-    <v-dialog 
-    v-model="dialog"
-    hide-overlay
-    width="1000px"
-    >
-
+  <div class="flex-container">
+    <div class="youtube-video">
+      <iframe :src="YoutubeUrl" frameborder="0"></iframe>
+    </div>
+    <!-- <span class="youtube-video">
+      <v-dialog 
+      v-model="dialog"
+      hide-overlay
+      width="1000px"
+      >
+      
       <template 
       v-slot:activator="{on, attrs}">
-      
-<<<<<<< HEAD
+      <iframe :src="YoutubeUrl" frameborder="0"></iframe>
       <img :src="imgSrc"
       v-bind="attrs"
       v-on="on"
       >
-      </template>
-      <div class="youtube-dialog-card">
-
-        <div class="video-container">
-        <iframe :src="YoutubeUrl"></iframe>
-        </div>      
-      </div>
-=======
-      <img :src="imgSrc" alt="없어용"
-      v-bind="attrs"
-      v-on="on"
-      width="160px" 
-      >
-      {{ video }}
-      </template>
-
+    </template>
+    <div class="youtube-dialog-card">
       <div class="video-container">
-        <iframe :src="YoutubeUrl"></iframe>
-      </div>      
->>>>>>> f3a832f2061c1aa9a514e86b812620dd0aebba9f
-    </v-dialog>
-  </span>
+            <p>가나다라</p>
+          <iframe :src="YoutubeUrl"></iframe>
+          </div>      
+        </div>
+      </v-dialog>
+    </span> -->
+  </div>
+
 </template>
 
 <script>
@@ -50,12 +42,12 @@ export default {
     video: Object,
   },
   computed:{
-    imgSrc(){
-      return this.video.snippet.thumbnails.high.url
+    // imgSrc(){
+    //   return this.video.snippet.thumbnails.high.url
 
-    },
+    // },
     YoutubeUrl(){
-      const videoId = this.video.id.videoId
+      const videoId = this.video.key
       return `https://www.youtube.com/embed/${videoId}`
     }
   }
@@ -63,6 +55,9 @@ export default {
 </script>
 
 <style>
+
+
+
 .youtube-video{
   margin-bottom: 1rem;
   cursor: pointer;
@@ -75,7 +70,6 @@ export default {
   transform: scale(1.2);
   transition-duration: 0.5s
 }
-<<<<<<< HEAD
 .youtube-video > img {
   height: fit-content;
   width: 200px;
@@ -83,9 +77,8 @@ export default {
 }
 
 .video-container {
-  display: flex;
-  flex-flow: column wrap;
-  background-color: #000000;
+  position: relative;   /* iframe을 container를 기준으로 위치를 지정 */
+  padding-top: 56.25%;  /* 유튜브 비디오 비율을 맞추기 위한 높이 설정 */
 }
 
 .youtube-dialog-card {
@@ -94,26 +87,12 @@ export default {
   background-color: #000000;
 }
 
-.youtube-container > iframe {
-  position: absolute;
-  top: 25%;
-  left: 25%;
-  width: 50%;
-  height: 50%;
-=======
-
-.video-container {
-  position: relative;   /* iframe을 container를 기준으로 위치를 지정 */
-  padding-top: 56.25%;  /* 유튜브 비디오 비율을 맞추기 위한 높이 설정 */
-}
-
 .video-container > iframe {
   position: absolute;   /* container를 기준으로 위치를 지정*/
   top: 0;               /* container의 가장 위쪽으로 위치를 지정 */
   left: 0;
   width: 100%;
   height: 100%;
->>>>>>> f3a832f2061c1aa9a514e86b812620dd0aebba9f
 }
 
 

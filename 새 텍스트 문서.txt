@@ -1,2 +1,29 @@
 npm i vue-glide-js
 npm install @nuxtjs/vuetify -D
+
+회원가입 O
+search O
+
+
+할거 
+
+
+댓글 
+- 삭제 딜레이 원인찾아야함
+- 수정도 딜레이 생김;
+
+profile 영화 출력 한줄로 출력 
+- 다른 캐러셀 써두 안됩니당
+
+
+
+
+
+댓글 창
+- 이거 어캐 와꾸맞춤;; 에바임
+
+youtube 새로
+못함 -- 
+
+좋아요 영화 프로필에서 출력
+못함 

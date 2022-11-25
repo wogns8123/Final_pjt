@@ -1,31 +1,19 @@
 <template>
-<<<<<<< HEAD
   <ul class="youtube-list">
-=======
-  <div>
->>>>>>> f3a832f2061c1aa9a514e86b812620dd0aebba9f
     <YoutubeListItem class="container"
     v-for="(video) in this.youtubeVideo"
     :key="video.idx"
     :video="video"
-<<<<<<< HEAD
     />    
+    
   </ul>
-=======
-    
-    />
-    
-  </div>
->>>>>>> f3a832f2061c1aa9a514e86b812620dd0aebba9f
 </template>
 
 <script>
 import YoutubeListItem from '@/components/Movie/YoutubeListItem'
+import axios from 'axios'
 
-<<<<<<< HEAD
-
-=======
->>>>>>> f3a832f2061c1aa9a514e86b812620dd0aebba9f
+const API_KEY = '048f1b44f3f7ceec6752538826583420'
 export default {
   name: 'YoutubeList',
   props: {
@@ -36,21 +24,32 @@ export default {
   },
   data(){
     return{
-      youtubeVideo: this.$store.state.youtubeVideos
-<<<<<<< HEAD
-=======
-      
->>>>>>> f3a832f2061c1aa9a514e86b812620dd0aebba9f
+      youtubeVideo: [],
+    }
+  },
+  methods:{
+    getYoutubeKey(){
+      axios({
+        method: 'get',
+        url: `https://api.themoviedb.org/3/movie/${this.movie.get_id}/videos?api_key=${API_KEY}&language=en-US`
+      })
+      .then(res => {
+        
+        this.youtubeVideo = res.data.results.slice(0,3)
+      })
     }
   },
   created(){
-    this.$store.dispatch('getYoutube', this.movie.title)
+    this.getYoutubeKey()
   }
+
+  // created(){
+  //   this.$store.dispatch('getYoutube', this.movie)
+  // }
 }
 </script>
 
 <style>
-<<<<<<< HEAD
 .youtube-list{
   display: flex;
   flex-flow: row nowrap;
@@ -59,7 +58,5 @@ export default {
   padding-left: 0;
 }
 
-=======
->>>>>>> f3a832f2061c1aa9a514e86b812620dd0aebba9f
 
 </style>

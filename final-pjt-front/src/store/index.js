@@ -7,8 +7,6 @@ import router from '@/router'
 Vue.use(Vuex)
 
 const API_URL = 'http://127.0.0.1:8000'
-const YOUTUBE_URL = 'https://www.googleapis.com/youtube/v3/search'
-const YOUTUBE_KEY = 'AIzaSyDlxxWeu6OMB8ZmSn-RPbwlzEqPSB0RReU'
 
 export default new Vuex.Store({
   plugins: [
@@ -18,13 +16,15 @@ export default new Vuex.Store({
     MovieJsonData: [],
     token: null,
     comments: [],
-    youtubeVideos: [],
-    user_id: null,
+
     genres: [],
-<<<<<<< HEAD
-    rated: [1,2,3,4,5,6,7,8,9,10],
-=======
->>>>>>> f3a832f2061c1aa9a514e86b812620dd0aebba9f
+    rated: [1,2,3,4,5],
+    payload: {
+      username: null,
+      password: null
+    },
+    searchQuery: null,
+    likestatus: false,
   },
   getters: {
     isLogin(state) {
@@ -38,8 +38,8 @@ export default new Vuex.Store({
       state.movies = state.MovieJsonData.slice(0, 25)
       return state.movies
     },
-    getComment(state){
-      return state.comments
+    getSendQuery(state){
+      return state.searchQuery
     }
   },
   mutations: {
@@ -48,21 +48,34 @@ export default new Vuex.Store({
     },
     SAVE_TOKEN(state, token) {
       state.token = token
-      router.push({ name:'movie' })
+      router.push({ name: 'movie' })
     },
-    CREATE_COMMENT(state, commentItem) {
-      state.comments.push(commentItem)
+    SET_USER_DATA(state, payload) {
+      state.payload = {
+        username: payload.username,
+        password: payload.password
+      }
     },
-    GET_YOUTUBE(state, res){
-      state.youtubeVideos = res.data.items
-    },
+
     DELETE_TOKEN(state) {
       state.token = null
+      state.payload.username = null
+      state.payload.password = null
     },
     PICK_GENRE(state, res) {
       state.genres = res.data
       console.log(res.data)
-    }
+    },
+    CREATE_COMMENT(state, res){
+      console.log(typeof res)
+      state.comments.push(res)
+    },
+    GET_COMMENTS(state, res){
+      state.comments = res
+    },
+    SEND_QUERY(state, query){
+      state.searchQuery = query
+    },
   },
   actions: {
     getMovieJson(context) {
@@ -72,12 +85,15 @@ export default new Vuex.Store({
       })
         .then((response) => {
           context.commit('GET_MOVIE_JSON_DATA', response.data)
+          console.log(response.data)
         })
         .catch(error => {
           console.log(error)
         })
     },
     signUp(context, payload) {
+      // const local_genre = []
+      console.log('PAYLOAD', payload)
       axios({
         method: 'post',
         url: `${API_URL}/accounts/signup/`,
@@ -85,41 +101,27 @@ export default new Vuex.Store({
           username: payload.username,
           password1: payload.password1,
           password2: payload.password2,
+          genre: payload.genre
         }
       })
         .then((response) => {
           context.commit('SAVE_TOKEN', response.data.key)
+          context.commit('SET_USER_DATA', payload)
         })
-        .then(
+        .then(() => {
+          const push_genre = payload.genre
+          console.log('TOKEN', this.state.token)
           axios({
-            method: 'get',
-            url: `${API_URL}/api/v1/genres/`,
+            method: 'post',
+            url: `${API_URL}/accounts/add_genres/`,
+            headers: {
+              Authorization: `Token ${this.state.token}`
+            },
             data: {
-              pk: payload.genre_pk
+              push_genre
             }
           })
-            .then((response) => {
-              context.commit('GET_GENRES', response.data.key)
-            })
-        )
-    },
-    pickGenre(context, genre_list) {
-      const local_genre = []
-      for (let i=0; i<genre_list.length; i++) {
-        console.log(genre_list[i])
-        axios({
-          method: 'get',
-          url: `${API_URL}/api/v1/genres/`,
         })
-          .then((response) => {
-            for (let j=0; j<response.data.length; j++) {
-              if (genre_list[i] === response.data[j].name) {
-                local_genre.push(response.data[j].id)
-              }
-            }
-            context.commit('PICK_GENRE', local_genre)
-          })
-      }
     },
     logIn(context, payload) {
       axios({
@@ -132,21 +134,14 @@ export default new Vuex.Store({
       })
         .then((response) => {
           context.commit('SAVE_TOKEN', response.data.key)
-          context.commit('SET_USER_DATA', response.user)
+          context.commit('SET_USER_DATA', payload)
           console.log(response)
         })
     },
     logOut(context){
+      console.log(this.state.token)
       context.commit('DELETE_TOKEN')
-    },
-    createComment(context, payload){
-      const commentItem = {
-        context: payload.comment,
-        movie_id : payload.movie_id,
-        isCompleted: false,
-      }
-      console.log(commentItem)
-      context.commit('CREATE_COMMENT', commentItem)
+      console.log(this.state.token)
     },
     getProfile(context) {
       axios({
@@ -160,27 +155,30 @@ export default new Vuex.Store({
           context.commit('GET_PROFILE', res.data)
         )
     },
-    getYoutube(context, title){
-      const params={
-        q: title + 'movie',
-        key: YOUTUBE_KEY,
-        part: 'snippet',
-        type: 'video'
-      }
+    sendQuery(context, query){
+      context.commit('SEND_QUERY', query)
+    },
+    likeMovie(context, likeItemSet){
       axios({
-        method: 'get',
-        url: YOUTUBE_URL,
-        params,
+        method:'post',
+        url: `${API_URL}/api/v1/movies/${this.movie.id}/like_users/`,
+        data:{
+          movie: likeItemSet.movie,
+          likeStatus: likeItemSet.likeStatus
+        },
+        headers:{
+          Authorization: `Token ${this.$store.state.token}`
+        }
       })
-        .then(res =>{
-          context.commit('GET_YOUTUBE', res)
-        })
-<<<<<<< HEAD
-        .catch(err=>{
-          console.log(err)
-        })
-=======
->>>>>>> f3a832f2061c1aa9a514e86b812620dd0aebba9f
+      .then((res)=>{
+        console.log('댓글',res)
+        context.commit('LIKE_MOVIE', res)
+      })
+    },
+    makeDefault(context) {
+      if (this.getters.isLogin === true) {
+        context.commit('DELETE_TOKEN')
+      }
     }
   },
   modules: {

@@ -10,9 +10,8 @@
       </v-img>
     </template>
     <div class="movie-card">
-      <div :style="{'background-image' : `url(https://image.tmdb.org/t/p/original/${movie.get_backdrop_path})`}" 
+      <div :style="{'background-image' : `url(https://image.tmdb.org/t/p/original/${movie.backdrop_path})`}" 
       class="bgImg">
-        
         <div class="movie-toolbar">
           <v-btn
             icon
@@ -39,7 +38,7 @@
                   v-if="movie.released_date"
                   class="movie-release-date">
                     {{ movie.released_date }}
-                    <p>출연:</p>
+                    
                   </div>
                   <!-- <div
                   v-if="movie.genres">
@@ -69,9 +68,14 @@
               </div>
             </div>
             <br>
+            <div>
+            </div>
             <div class="movie-lower">
               <!-- youtube -->
               <div class="movie-youtube-area">
+                <LikeMovie
+                :movie="movie"
+                />
                 <h3>
                   관련 영상
                 </h3>
@@ -82,48 +86,23 @@
             </div>
           </div>
         </div>
+        
       </div>
       <div style="color:white;">
-<<<<<<< HEAD
-        <CommentForm
-=======
-        <CommentVue
->>>>>>> f3a832f2061c1aa9a514e86b812620dd0aebba9f
-        :movie="movie"
-        />
-        <!-- <CommentForm
-        :movie="movie"
-        />
-        <CommentList
-        :movie="movie"
-        /> -->
-<<<<<<< HEAD
         <CommentList
         :movie="movie"
         />
-
-=======
->>>>>>> f3a832f2061c1aa9a514e86b812620dd0aebba9f
       </div>
     </div>
-    comment
-    
     </v-dialog>
-
-    
   </div>
 </template>
 
 <script>
-// import CommentForm from '@/components/Movie/CommentForm'
-// import CommentList from '@/components/Movie/CommentList'
+
 import YoutubeList from '@/components/Movie/YoutubeList'
-<<<<<<< HEAD
-import CommentList from '@/components/Movie/CommentList.vue'
-import CommentForm from './CommentForm.vue'
-=======
-import CommentVue from '@/components/Movie/CommentVue'
->>>>>>> f3a832f2061c1aa9a514e86b812620dd0aebba9f
+import CommentList from '@/components/Movie/CommentList'
+import LikeMovie from '@/components/Movie/LikeMovie'
 
 export default {
   name:'MovieCard',
@@ -131,24 +110,18 @@ export default {
     movie: Object
   },
   components: {
-<<<<<<< HEAD
-    // CommentForm,
-    // CommentList,
-    YoutubeList,
     CommentList,
-    CommentForm
-},
-=======
-
-    // CommentForm,
-    // CommentList,
     YoutubeList,
-    CommentVue,
-  },
->>>>>>> f3a832f2061c1aa9a514e86b812620dd0aebba9f
+    LikeMovie,
+},
   data(){
-    return{
-      dialog: false
+    return {
+      dialog: false,
+      likeUserId : [],
+    }
+  },
+  methods:{
+    addLike(){
 
     }
   },
@@ -156,11 +129,10 @@ export default {
   imgSrc: function () {
     return "https://image.tmdb.org/t/p/original" + this.movie.poster_path
   },
-<<<<<<< HEAD
-}}
-=======
+},
+
+
 }
->>>>>>> f3a832f2061c1aa9a514e86b812620dd0aebba9f
 </script>
 
 <style>
@@ -234,11 +206,10 @@ export default {
 }
 
 .bgImg{
-  height: 100vh;
-    background: no-repeat center;
-    background-size: cover;
-    width: 100%;
-    height: auto;
+  background: no-repeat center;
+  background-size: cover;
+  width: 100%;
+  height: auto;
 }
 
 </style>

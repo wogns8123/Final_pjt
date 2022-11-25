@@ -1,67 +1,30 @@
 <template>
   <div id="app" >
+    <h1 style="color:white; margin:50px">인기 영화</h1>
     <div class="row row-cols-1 row-cols-md-5 gy-3 imgmouserOver">
       <MovieCard
         v-for="(movie, idx) in totalMovie"
         :key="idx"
         :movie="movie"/>
     </div>
-    
-<<<<<<< HEAD
-    <!-- <h1>인기 영화</h1>
-=======
-    <h1>인기 영화</h1>
->>>>>>> f3a832f2061c1aa9a514e86b812620dd0aebba9f
-    <div class="mt-3 mx-3">
-      <vue-glide class="glide__track"
-        data-glide-el="track"
-        ref="slider"
-        type="carousel"
-        :breakpoints="{3000: {perView: 7}, 1100: {perView: 6}, 600: {perView: 3}}"
-      >
-        <vue-glide-slide 
-          v-for="movie in totalMovie"
-          :key="movie.id"
-          class="imgmouserOver"
-          >
-          
-          <img
-            
-            :src="`https://image.tmdb.org/t/p/original/${movie.poster_path}`"
-            @click="moveDetail(movie)"
-            style="width: 100%; height: 70%;"
-            
-          >
-        </vue-glide-slide>
-      </vue-glide>
-    </div> -->
-
-    
-    <div>
-      <h1> 다음 영화 리스트</h1>
+    <div data-app>
+      <MyComponent/>
     </div>
-
-
-
   </div>
 </template>
 
 <script>
-import router from '@/router'
-import { Glide, GlideSlide } from 'vue-glide-js'
+
 import MovieCard from '@/components/Movie/MovieCard'
 
 export default {
   name: 'MovieView',
-  components:{
-    [Glide.name]: Glide,
-    [GlideSlide.name]: GlideSlide,
+  components: {
+    
     MovieCard,
+    
   },
   methods: {
-    moveDetail(movie) {
-      router.push({ name: 'detail', params: { movie, id: movie.id } })
-    },
     getMovieJson() {
       this.$store.dispatch('getMovieJson')
     }
@@ -83,12 +46,11 @@ export default {
   height: auto;
   margin: 0px auto;
 }
+
 .imgmouserOver:hover img{
   transform: scale(1.5,1.5); transition-duration: 0.5s;
   opacity: 1;
 }
-
-
 
 .info {
   color: #fff;
@@ -100,6 +62,7 @@ export default {
   opacity: 0;
   transition: opacity 0.35s ease-in-out;
 }
+
 .info h3 {
   font-size: 24px;
   padding-bottom: 0.4em;
